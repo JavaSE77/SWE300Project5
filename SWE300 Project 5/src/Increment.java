@@ -1,8 +1,9 @@
+import java.util.concurrent.Semaphore;
 
-public class Increment implements MathBehavior{
+public class Increment implements MathBehavior {
 
 	@Override
-	public int doOperation(Buffer inBuffer, Buffer outBuffer) {
+	public int doOperation(Buffer inBuffer, Buffer outBuffer, QueueSemaphore semaphore) {
 		// TODO Auto-generated method stub
 		synchronized(inBuffer) {
 
