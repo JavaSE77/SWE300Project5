@@ -7,93 +7,99 @@ import org.junit.jupiter.api.Test;
 
 public class TestClass {
 
-//	@Test
-//	public void randomNumber() {
-//		Buffer inBuffer = new Buffer();
-//		Buffer outBuffer = new Buffer();
-//		MathBehavior mathBehavior = new RandomNumber();
-//		QueueSemaphore semaphore = new QueueSemaphore(1);
-//		
-//		mathBehavior.doOperation(inBuffer, outBuffer, semaphore);
-//		
-//		int value = outBuffer.read();
-//		System.out.println("Random number equals: " + value);
-//		assertNotEquals(value, 0);
-//		
-//		
-//	}
-//	
-//
-//	@Test
-//	public void MultiplyBy3() {
-//		Buffer inBuffer = new Buffer();
-//		inBuffer.write(10);
-//		Buffer outBuffer = new Buffer();
-//		MathBehavior mathBehavior = new Multiplier();
-//		QueueSemaphore semaphore = new QueueSemaphore(1);
-//		
-//		mathBehavior.doOperation(inBuffer, outBuffer, semaphore);
-//		
-//		int value = outBuffer.read();
-//		System.out.println("Multiply by 3 number equals: " + value);
-//		assertEquals(value, 30);
-//		
-//		
-//	}
-//	
-//
-//	@Test
-//	public void add6() {
-//		Buffer inBuffer = new Buffer();
-//		inBuffer.write(10);
-//		Buffer outBuffer = new Buffer();
-//		MathBehavior mathBehavior = new Adder();
-//		QueueSemaphore semaphore = new QueueSemaphore(1);
-//		
-//		mathBehavior.doOperation(inBuffer, outBuffer, semaphore);
-//		
-//		int value = outBuffer.read();
-//		System.out.println("Add 6 number equals: " + value);
-//		assertEquals(value, 16);
-//		
-//		
-//	}
-//	
-//	
-//
-//	@Test
-//	public void devideBy3() {
-//		Buffer inBuffer = new Buffer();
-//		inBuffer.write(30);
-//		Buffer outBuffer = new Buffer();
-//		MathBehavior mathBehavior = new Division();
-//		QueueSemaphore semaphore = new QueueSemaphore(1);
-//		
-//		mathBehavior.doOperation(inBuffer, outBuffer, semaphore);
-//		
-//		int value = outBuffer.read();
-//		System.out.println("divide by 3 number equals: " + value);
-//		assertEquals(value, 10);
-//		
-//		
-//	}
-//	
-//	@Test
-//	public void subtractBy0() {
-//		Buffer inBuffer = new Buffer();
-//		inBuffer.write(30);
-//		Buffer outBuffer = new Buffer();
-//		MathBehavior mathBehavior = new Subtractor();
-//		QueueSemaphore semaphore = new QueueSemaphore(1);
-//		
-//		mathBehavior.doOperation(inBuffer, outBuffer, semaphore);
-//		
-//		int value = outBuffer.read();
-//		System.out.println("subtractor number equals: " + value);
-//		assertEquals(value, 30);
-//		
-//		
-//	}
+		
+	@Test
+	public void randomNumber() {
+		Buffer inBuffer = new Buffer();
+		Buffer outBuffer = new Buffer();
+		MathBehavior mathBehavior = new RandomNumber();
+		QueueSemaphore semaphore = new QueueSemaphore(1);
+		semaphore.setSemaphorePlace(0);
+		
+		mathBehavior.doOperation(inBuffer, outBuffer, semaphore);
+		
+		int value = outBuffer.read();
+		System.out.println("Random number equals: " + value);
+		assertNotEquals(value, 0);
+		
+		
+	}
+	
+
+	@Test
+	public void MultiplyBy3() {
+		Buffer inBuffer = new Buffer();
+		inBuffer.write(10);
+		Buffer outBuffer = new Buffer();
+		MathBehavior mathBehavior = new Multiplier();
+		QueueSemaphore semaphore = new QueueSemaphore(1);
+		semaphore.setSemaphorePlace(1);
+		
+		mathBehavior.doOperation(inBuffer, outBuffer, semaphore);
+		
+		int value = outBuffer.read();
+		System.out.println("Multiply by 3 number equals: " + value);
+		assertEquals(value, 30);
+		
+		
+	}
+	
+
+	@Test
+	public void add6() {
+		Buffer inBuffer = new Buffer();
+		inBuffer.write(10);
+		Buffer outBuffer = new Buffer();
+		MathBehavior mathBehavior = new Adder();
+		QueueSemaphore semaphore = new QueueSemaphore(1);
+		semaphore.setSemaphorePlace(2);
+		
+		mathBehavior.doOperation(inBuffer, outBuffer, semaphore);
+		
+		int value = outBuffer.read();
+		System.out.println("Add 6 number equals: " + value);
+		assertEquals(value, 16);
+		
+		
+	}
+	
+	
+
+	@Test
+	public void devideBy3() {
+		Buffer inBuffer = new Buffer();
+		inBuffer.write(30);
+		Buffer outBuffer = new Buffer();
+		MathBehavior mathBehavior = new Division();
+		QueueSemaphore semaphore = new QueueSemaphore(1);
+		semaphore.setSemaphorePlace(3);
+		
+		mathBehavior.doOperation(inBuffer, outBuffer, semaphore);
+		
+		int value = outBuffer.read();
+		System.out.println("divide by 3 number equals: " + value);
+		assertEquals(value, 10);
+		
+		
+	}
+	
+	@Test
+	public void subtractBy0() {
+		Buffer inBuffer = new Buffer();
+		inBuffer.write(30);
+		Buffer outBuffer = new Buffer();
+		MathBehavior mathBehavior = new Subtractor();
+		QueueSemaphore semaphore = new QueueSemaphore(1);
+		semaphore.setSemaphorePlace(4);
+		
+		mathBehavior.doOperation(inBuffer, outBuffer, semaphore);
+		
+		int value = outBuffer.read();
+		System.out.println("subtractor number equals: " + value);
+		assertEquals(value, 30);
+		
+		
+	}
 	
 	@Test
 	public void testSingleThread() {

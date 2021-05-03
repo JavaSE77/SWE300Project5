@@ -43,4 +43,8 @@ public class QueueSemaphore {
 	public void setStartingValue(int rand) {
 		this.startingValue = rand;
 	}
+	
+	public void setSemaphorePlace(int place) {
+		this.place = place;
+	}
 }
