@@ -3,6 +3,15 @@ import java.util.concurrent.Semaphore;
 public class Division implements MathBehavior {
 
 	/**
+	 * @param int operand - number to divide by
+	 * */
+	public Division(int operand) {
+		this.operand = operand;
+	}
+
+	private int operand = 0;
+	
+	/**
 	 * @param Buffer inBuffer, Buffer outBuffer
 	 * Takes the value in inbuffer and devides it by 3, restoring the result in outBuffer
 	 * */
@@ -14,7 +23,7 @@ public class Division implements MathBehavior {
 			if( semaphore.tryAquire(this)) { 
 				  //critical section
 				int in = inBuffer.read();
-				int finished = in / 3;
+				int finished = in / operand;
 				outBuffer.write(finished);
 				//System.out.println("Division");
 				semaphore.release();

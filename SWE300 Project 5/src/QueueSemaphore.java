@@ -3,8 +3,7 @@ import java.util.concurrent.Semaphore;
 public class QueueSemaphore {
 
 	private Semaphore semaphore;
-	private MathBehavior[] behaviors =
-	{ new RandomNumber(), new Multiplier(), new Adder(), new Division(), new Subtractor()};
+	private MathBehavior[] behaviors = Starter.getBehaviorTable();
 	private int place = 0;
 	private int startingValue = 0;
 	

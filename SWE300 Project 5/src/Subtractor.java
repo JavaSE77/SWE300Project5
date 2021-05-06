@@ -2,6 +2,10 @@ import java.util.concurrent.Semaphore;
 
 public class Subtractor implements MathBehavior{
 
+	/*
+	 * Subtractor does not need a constructor, because it gets its operation value from the semaphore.
+	 * */
+	
 	/**
 	 * @param Buffer inBuffer, Buffer outBuffer, int operand
 	 * Step 5 in the math game. 

@@ -14,9 +14,10 @@ public class Starter
 	 */
 	public static final int NUMBER_OF_TRIALS = 10000;
 	public static final int MAX_WAIT_FOR_SEM = 2;
-	private MathBehavior[] behaviors =
-	{ new RandomNumber(), new Multiplier(), new Adder(), new Division(), new Subtractor()};
-	private Buffer buffer;
+	//This is static so other classes can see the table through our getter method. 
+	private static MathBehavior[] behaviors =
+		{ new RandomNumber(10000), new Multiplier(3), new Adder(6), new Division(3), new Subtractor()};
+
 	private QueueSemaphore semaphore;
 
 	/**
@@ -47,15 +48,14 @@ public class Starter
 			InterruptedException
 	{
 		Thread threads[] = new Thread[behaviors.length];
-		buffer = new Buffer();
-		buffer.write(1);
+		Buffer buffers[] = new Buffer[behaviors.length +1];
+		buffers = fillBuffers(behaviors.length +1);
 		this.semaphore = new QueueSemaphore(1);
 		for (int i = 0; i < behaviors.length; i++)
 		{
 
 			
-
-			threads[i] = new Modifier(i, buffer, buffer, behaviors[i], semaphore);
+			threads[i] = new Modifier(i, buffers[i], buffers[i +1], behaviors[i], semaphore);
 			threads[i].start();
 
 		}
@@ -63,7 +63,7 @@ public class Starter
 		{
 			threads[i].join();
 		}
-		ConstantChecker checker = new ConstantChecker((buffer), 2);
+		ConstantChecker checker = new ConstantChecker((buffers[behaviors.length +1]), 2);
 		checker.check();
 
 	}
@@ -96,6 +96,26 @@ public class Starter
 
 		new Starter();
 
+	}
+	
+	/**
+	 * Returns the mathBehavior table. Sorry this is static
+	 * */
+	public static MathBehavior[] getBehaviorTable() {
+		return behaviors;
+	}
+	
+	/**
+	 * @param int size - the size of the array of buffers.
+	 * Returns an array of buffers of length size
+	 * buffers is static so other methods can use it.
+	 * */
+	public static Buffer[] fillBuffers(int size) {
+		Buffer[] buffers = new Buffer[size];
+		for( int i = 0; i < size; i++) {
+			buffers[i] = new Buffer();
+		}
+		return buffers;
 	}
 
 }
