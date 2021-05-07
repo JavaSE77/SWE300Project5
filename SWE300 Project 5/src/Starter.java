@@ -12,13 +12,12 @@ public class Starter
 	/**
 	 * The number of iterations each behavior should do
 	 */
-	public static final int NUMBER_OF_TRIALS = 10000;
-	public static final int MAX_WAIT_FOR_SEM = 2;
+	public static final int NUMBER_OF_TRIALS = 100000000;
+	public static final int MAX_WAIT_FOR_SEM = 1;
 	//This is static so other classes can see the table through our getter method. 
 	private static MathBehavior[] behaviors =
 		{ new RandomNumber(10000), new Multiplier(3), new Adder(6), new Division(3), new Subtractor()};
 
-	private QueueSemaphore semaphore;
 
 	/**
 	 * spawn off all of the behaviors giving them appropriate input and output
@@ -50,12 +49,11 @@ public class Starter
 		Thread threads[] = new Thread[behaviors.length];
 		Buffer buffers[] = new Buffer[behaviors.length +1];
 		buffers = fillBuffers(behaviors.length +1);
-		this.semaphore = new QueueSemaphore(1);
 		for (int i = 0; i < behaviors.length; i++)
 		{
 
 			
-			threads[i] = new Modifier(i, buffers[i], buffers[i +1], behaviors[i], semaphore);
+			threads[i] = new Modifier(i, buffers[i], buffers[i +1], behaviors[i]);
 			threads[i].start();
 
 		}
@@ -63,7 +61,7 @@ public class Starter
 		{
 			threads[i].join();
 		}
-		ConstantChecker checker = new ConstantChecker((buffers[behaviors.length +1]), 2);
+		ConstantChecker checker = new ConstantChecker((buffers[behaviors.length]), 2);
 		checker.check();
 
 	}

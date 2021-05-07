@@ -16,30 +16,15 @@ public class RandomNumber implements MathBehavior {
 	 * Generates a random number and stores it in output buffer.
 	 * */
 	@Override
-	public int doOperation(Buffer inBuffer, Buffer outBuffer, QueueSemaphore semaphore) {
-		// TODO Auto-generated method stub
-		
-		while(true) {
-			if( semaphore.tryAquire(this)) { 
+	public int doOperation(Buffer inBuffer, Buffer outBuffer) {
+
+		int rand = (int) Math.floor(Math.random()*(max)) +1;
 				
-				int rand = (int) Math.floor(Math.random()*(max)) +1;
-				
-				//System.out.println("Starting rand = " + rand);
-				outBuffer.write(rand);
-				semaphore.setStartingValue(rand);
-				semaphore.release();
-				break;
-			} else {
-				try {
-					int rand = (int) Math.floor(Math.random()*Starter.MAX_WAIT_FOR_SEM);
-					Thread.sleep(rand);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		
+		//System.out.println("Starting rand = " + rand);
+		inBuffer.setStartingValue(rand);
+		outBuffer.write(rand);
+
+
 		return 0;
 	}
 

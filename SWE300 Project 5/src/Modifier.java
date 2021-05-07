@@ -14,7 +14,6 @@ public class Modifier extends Thread
 	private Buffer inBuffer;
 	private Buffer outBuffer;
 	private MathBehavior mathBehavior;
-	private QueueSemaphore semaphore;
 	   //do something in here.
 
 	/**
@@ -27,15 +26,13 @@ public class Modifier extends Thread
 	 * @param outBuffer
 	 *            the buffer to write to
 	 */
-	public Modifier(Integer myNum, Buffer inBuffer, Buffer outBuffer, MathBehavior mathBehavior, QueueSemaphore queueSemaphore)
+	public Modifier(Integer myNum, Buffer inBuffer, Buffer outBuffer, MathBehavior mathBehavior)
 	{
 		synchronized(this) {
-		System.out.println("Initialized Incrementor with " + myNum);
-		this.myNum = myNum;
-		this.inBuffer = inBuffer;
-		this.outBuffer = outBuffer;
-		this.mathBehavior = mathBehavior;
-		this.semaphore = queueSemaphore;
+			this.myNum = myNum;
+			this.inBuffer = inBuffer;
+			this.outBuffer = outBuffer;
+			this.mathBehavior = mathBehavior;
 		}
 	}
 
@@ -45,14 +42,15 @@ public class Modifier extends Thread
 	@Override
 	public void run()
 	{
-		System.out.println("Running Incrementor with " + myNum);
 
 		for (int i = 0; i < Starter.NUMBER_OF_TRIALS; i++)
 		{
 			if(i % 100 == 0 && mathBehavior.toString() == "RandomNumber") {
-			System.out.println("Starting trial: " + i);
+				System.out.println("Starting trial: " + i);
 			}
-			mathBehavior.doOperation(inBuffer, outBuffer, semaphore);
+			
+			mathBehavior.doOperation(inBuffer, outBuffer);
+			outBuffer.setStartingValue(inBuffer.getStartingValue());
 		}
 
 	}

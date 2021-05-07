@@ -14,10 +14,8 @@ public class TestClass {
 	public void randomNumber() {
 		Buffer buffer = new Buffer();
 		MathBehavior mathBehavior = new RandomNumber(10000);
-		QueueSemaphore semaphore = new QueueSemaphore(1);
-		semaphore.setSemaphorePlace(0);
 		
-		mathBehavior.doOperation(buffer, buffer, semaphore);
+		mathBehavior.doOperation(buffer, buffer);
 		
 		int value = buffer.read();
 		System.out.println("Random number equals: " + value);
@@ -32,10 +30,8 @@ public class TestClass {
 		Buffer buffer = new Buffer();
 		buffer.write(10);
 		MathBehavior mathBehavior = new Multiplier(3);
-		QueueSemaphore semaphore = new QueueSemaphore(1);
-		semaphore.setSemaphorePlace(1);
 		
-		mathBehavior.doOperation(buffer, buffer, semaphore);
+		mathBehavior.doOperation(buffer, buffer);
 		
 		int value = buffer.read();
 		System.out.println("Multiply by 3 number equals: " + value);
@@ -50,10 +46,8 @@ public class TestClass {
 		Buffer buffer = new Buffer();
 		buffer.write(10);
 		MathBehavior mathBehavior = new Adder(6);
-		QueueSemaphore semaphore = new QueueSemaphore(1);
-		semaphore.setSemaphorePlace(2);
 		
-		mathBehavior.doOperation(buffer, buffer, semaphore);
+		mathBehavior.doOperation(buffer, buffer);
 		
 		int value = buffer.read();
 		System.out.println("Add 6 number equals: " + value);
@@ -69,10 +63,8 @@ public class TestClass {
 		Buffer buffer = new Buffer();
 		buffer.write(30);
 		MathBehavior mathBehavior = new Division(3);
-		QueueSemaphore semaphore = new QueueSemaphore(1);
-		semaphore.setSemaphorePlace(3);
 		
-		mathBehavior.doOperation(buffer, buffer, semaphore);
+		mathBehavior.doOperation(buffer, buffer);
 		
 		int value = buffer.read();
 		System.out.println("divide by 3 number equals: " + value);
@@ -86,10 +78,8 @@ public class TestClass {
 		Buffer buffer = new Buffer();
 		buffer.write(30);
 		MathBehavior mathBehavior = new Subtractor();
-		QueueSemaphore semaphore = new QueueSemaphore(1);
-		semaphore.setSemaphorePlace(4);
 		
-		mathBehavior.doOperation(buffer, buffer, semaphore);
+		mathBehavior.doOperation(buffer, buffer);
 		
 		int value = buffer.read();
 		System.out.println("subtractor number equals: " + value);
@@ -134,6 +124,26 @@ public class TestClass {
 	}
 	
 	@Test
+	public void testGroupOfBuffersWithSeedValue() {
+		
+		Buffer buffers[] = new Buffer[10];
+		assertEquals(buffers.length, 10);
+		for(int i = 0; i < 10; i++) {
+			buffers[i] = new Buffer(); 
+		}
+		buffers[0].write(30);
+		buffers[0].setStartingValue(65);
+		for(int i = 1; i < 10; i++) {
+			int value = buffers[i-1].read();
+			assertNotEquals(value, 0);
+			buffers[i].write(value);
+			buffers[i].setStartingValue(buffers[i-1].getStartingValue());
+		}
+		assertEquals(buffers[9].read(), 30);
+		assertEquals(buffers[9].getStartingValue(), 65);
+	}
+	
+	@Test
 	public void testBufferSemaphore() {
 		Buffer buffer = new Buffer();
 		assertEquals(buffer.getPermits(), 0);
@@ -149,22 +159,21 @@ public class TestClass {
 		buffer.unlockBuffer();
 
 		MathBehavior mathBehavior = new RandomNumber(10000);
-		QueueSemaphore semaphore = new QueueSemaphore(1);
 		
-		mathBehavior.doOperation(buffer, buffer, semaphore);
+		mathBehavior.doOperation(buffer, buffer);
 		int startingValue = buffer.read();
 		//multiply by 3
 		mathBehavior = new Multiplier(3);
-		mathBehavior.doOperation(buffer, buffer, semaphore);
+		mathBehavior.doOperation(buffer, buffer);
 		//add 6
 		mathBehavior = new Adder(6);
-		mathBehavior.doOperation(buffer, buffer, semaphore);
+		mathBehavior.doOperation(buffer, buffer);
 		//divide by 3
 		mathBehavior = new Division(3);
-		mathBehavior.doOperation(buffer, buffer, semaphore);
+		mathBehavior.doOperation(buffer, buffer);
 		//subtract 0
 		mathBehavior = new Subtractor();
-		mathBehavior.doOperation(buffer, buffer, semaphore);
+		mathBehavior.doOperation(buffer, buffer);
 		
 		int value = buffer.read();
 		System.out.println("We started with " + startingValue + " and ended with " + value);
@@ -179,27 +188,27 @@ public class TestClass {
 		buffer.unlockBuffer();
 
 		MathBehavior mathBehavior = new RandomNumber(10000);
-		QueueSemaphore semaphore = new QueueSemaphore(1);
 		
-		mathBehavior.doOperation(buffer, buffer, semaphore);
+		mathBehavior.doOperation(buffer, buffer);
 		int startingValue = buffer.read();
 		//multiply by 3
 		mathBehavior = new Multiplier(3);
-		mathBehavior.doOperation(buffer, buffer, semaphore);
+		mathBehavior.doOperation(buffer, buffer);
 		//add 6
 		mathBehavior = new Adder(6);
-		mathBehavior.doOperation(buffer, buffer, semaphore);
+		mathBehavior.doOperation(buffer, buffer);
 		//divide by 3
 		mathBehavior = new Division(3);
-		mathBehavior.doOperation(buffer, buffer, semaphore);
+		mathBehavior.doOperation(buffer, buffer);
 		//subtract 0
 		mathBehavior = new Subtractor();
-		mathBehavior.doOperation(buffer, buffer, semaphore);
+		mathBehavior.doOperation(buffer, buffer);
 		
 		int value = buffer.read();
 		System.out.println("We started with " + startingValue + " and ended with " + value);
 		assertNotEquals(value, 0);
 		
 	}
+	
 	
 }

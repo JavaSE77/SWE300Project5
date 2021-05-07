@@ -18,6 +18,7 @@ public class Buffer
 //	}
 	
 	private int x;
+	private int startingValue;
 	
 	
 	/*
@@ -34,11 +35,10 @@ public class Buffer
 	 */
 	public void write(int x)
 	{
+		
 
-		System.out.println("Number of semaphore locks held is: " + semaphore.availablePermits());
+		this.x = x;
 		semaphore.release();
-		System.out.println("\nNumber of semaphore locks held is: " + semaphore.availablePermits());
-		  this.x = x;
 
 	}
 
@@ -50,6 +50,13 @@ public class Buffer
 		while(true) {
 			if(semaphore.tryAcquire()) {
 				return x;
+			} else {
+				try {
+					//We have to delay it, otherwise it breaks. Not sure why
+					Thread.sleep(Starter.MAX_WAIT_FOR_SEM);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 			
@@ -72,5 +79,21 @@ public class Buffer
 		semaphore.release(100);
 	}
 
+	
+	/**
+	 * @param int startingValue - this is the value given by the random number class
+	 * */
+	public void setStartingValue(int startingValue) {
+		this.startingValue = startingValue;
+	}
+	
+	
+	/**
+	 * Returns the value initially set by the random number class
+	 * */
+	public int getStartingValue() {
+		return this.startingValue;
+	}
+	
 	
 }

@@ -16,29 +16,12 @@ public class Division implements MathBehavior {
 	 * Takes the value in inbuffer and devides it by 3, restoring the result in outBuffer
 	 * */
 	@Override
-	public int doOperation(Buffer inBuffer, Buffer outBuffer, QueueSemaphore semaphore) {
-		// TODO Auto-generated method stub
-		
-		while(true) {
-			if( semaphore.tryAquire(this)) { 
-				  //critical section
-				int in = inBuffer.read();
-				int finished = in / operand;
-				outBuffer.write(finished);
-				//System.out.println("Division");
-				semaphore.release();
-				break;
-			}  else {
-				try {
-					int rand = (int) Math.floor(Math.random()*Starter.MAX_WAIT_FOR_SEM);
-					Thread.sleep(rand);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+	public int doOperation(Buffer inBuffer, Buffer outBuffer) {
 
+		//critical section
+		int in = inBuffer.read();
+		int finished = in / operand;
+		outBuffer.write(finished);
 		
 		return 0;
 	}
